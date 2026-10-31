@@ -284,3 +284,67 @@ button,.contact-link,.booking-submit,input,select,textarea{min-height:44px}
 .contact-socials{display:flex;align-items:center;gap:24px;margin-top:35px}.contact-socials a{display:flex;align-items:center;gap:9px;color:var(--muted);font-size:8px;letter-spacing:.15em;transition:color .25s}.contact-socials a:hover{color:var(--purple)}.contact-socials svg,.footer-socials svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}.contact-socials a:nth-child(2) svg,.footer-socials a:nth-child(2) svg{fill:currentColor;stroke:none}.contact-socials a:nth-child(3) svg,.footer-socials a:nth-child(3) svg{fill:currentColor;stroke:none}.playground-enter{position:relative;z-index:5;display:flex;justify-content:space-between;align-items:center;margin:-4vh 8vw 8vh;padding:20px 0;border-top:1px solid #ffffff3d;border-bottom:1px solid #ffffff3d;color:#f9f8f6;font-size:9px;font-weight:600;letter-spacing:.16em}.playground-enter b{font-size:20px;color:#aa82ff;font-weight:400}.film-teaser .film-slide{margin-bottom:0}.film-teaser .film-story .storyboard{display:none}.film-teaser .film-endmark{font-size:8px}.cinema-page{background:#111114;color:#f9f8f6}.cinema-page .site-header{color:#f9f8f6}.cinema-page .site-header .sound-toggle{color:#f9f8f6}.cinema-page .playground{min-height:100vh;padding-top:145px}.cinema-page .playground-heading{margin-top:70px;margin-bottom:4vh}.cinema-page .playground-heading h1{font-size:clamp(74px,12vw,154px);line-height:.78}.cinema-page .playground-heading>p{color:#aaa}.cinema-page .playground .section-label{font-size:8px}.cinema-footer{background:#0b0b0d;min-height:86px;display:flex;align-items:center;justify-content:space-between;padding:16px 5vw;color:#aaa;font-size:8px;letter-spacing:.12em}.footer-socials{display:flex;align-items:center;gap:19px}.footer-socials a{display:inline-flex;align-items:center;color:inherit}.footer-socials a:hover{color:white}.footer-socials a:last-child{font-size:8px;letter-spacing:.1em}@media(max-width:640px){.contact-socials{gap:15px;flex-wrap:wrap}.contact-socials a{font-size:7px}.playground-enter{margin:-3vh 6vw 7vh;font-size:8px}.cinema-page .playground{padding-top:110px}.cinema-page .playground-heading{margin:48px 0 32px}.cinema-page .playground-heading h1{font-size:clamp(58px,15vw,90px)}.cinema-footer{display:grid;grid-template-columns:auto 1fr;gap:10px 14px;padding:18px 6vw}.cinema-footer>span{justify-self:end}.footer-socials{grid-column:1/-1;justify-content:space-between}.footer-socials a:last-child{font-size:7px}}
 
 .cinema-page #film-form{display:grid;gap:12px;margin:18px 0}.cinema-page #film-form label{display:flex;flex-direction:column;gap:6px;font-size:10px;color:#666}.cinema-page #film-form input,.cinema-page #film-form textarea{font:12px var(--body);padding:11px;border:1px solid var(--line);background:#fff;color:var(--ink);width:100%}.cinema-page #film-form textarea{min-height:84px}.cinema-page #film-form .booking-submit{width:100%}
+
+/* Production pass: prompt first paint, keep navigation reachable, and tune small screens. */
+:root{scroll-padding-top:86px}
+html,body{max-width:100%;overflow-x:clip}
+img,video,iframe{max-width:100%}
+.site-header{position:sticky;top:0;margin-bottom:-86px;background:rgba(249,248,246,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.cinema-page .site-header{background:rgba(17,17,20,.9)}
+.menu-toggle,.sound-toggle,.contact-link,.booking-controls button,.booking-submit,.admin-shortcut button{min-height:44px}
+.site-menu{z-index:11}
+.loader{animation:loader-release .45s .55s ease forwards}
+@keyframes loader-release{to{opacity:0;visibility:hidden;pointer-events:none}}
+@media(max-width:900px){
+  .hero{min-height:min(760px,100svh);padding-inline:6vw}
+  .mission-image{height:clamp(320px,55vw,520px)}
+  .project-title{max-width:80%;overflow-wrap:anywhere}
+  .booking-modal,.admin-modal{max-width:min(700px,calc(100vw - 28px))}
+}
+@media(max-width:640px){
+  :root{scroll-padding-top:72px}
+  .site-header{height:72px;margin-bottom:-72px;padding-inline:5vw}
+  .site-header .brand img{width:30px;height:36px}
+  .menu-toggle{gap:8px;padding:8px 0}
+  .hero{min-height:min(790px,100svh);padding:125px 6vw 78px}
+  .hero-copy{max-width:100%}
+  .hero h1{font-size:clamp(60px,16.5vw,104px);letter-spacing:-.045em}
+  .hero-sub{max-width:30ch}
+  .circle-link{margin-top:22px;flex:none}
+  .hero-bottom{gap:10px;align-items:center}
+  .section-pad{padding-inline:6vw}
+  .cap,.way{min-width:0}
+  .cap h3,.way h3{overflow-wrap:anywhere}
+  .project-image{height:min(116vw,470px)}
+  .project-screen{max-width:94%;right:2.5%;left:auto}
+  .project-card:nth-child(even) .project-screen{left:2.5%;right:auto}
+  .venture{min-width:0;padding:24px 20px}
+  .venture-art{right:-18px;max-width:56%}
+  .steps{grid-template-columns:1fr 1fr}
+  .contact h2{font-size:clamp(58px,15.8vw,104px);overflow-wrap:anywhere}
+  .contact-link{gap:12px;font-size:8px}
+  .contact-foot{align-items:flex-start}
+  footer{min-height:82px;height:auto;gap:12px;flex-wrap:wrap;padding:16px 5vw}
+  footer .footer-brand{flex:1 1 100%}
+  footer .footer-brand img{width:100px;max-height:46px;object-fit:contain;object-position:left center}
+  footer>span,footer>a:last-child{font-size:7px}
+  .booking-modal{width:calc(100vw - 20px);max-width:560px;max-height:calc(100dvh - 20px);padding:18px}
+  .booking-row{grid-template-columns:1fr;gap:0}
+  .booking-controls{gap:10px}
+  .booking-controls button{padding:12px}
+  .cinema-page .site-header{height:72px;margin-bottom:-72px}
+  .cinema-page .playground{padding-top:108px}
+  .film-slide,.film-slide:nth-child(even){min-height:auto;margin-bottom:0;padding:76px 6vw 54px}
+  .film-screen{height:min(72svh,650px);max-width:86vw}
+  .cinema-footer{min-width:0}
+}
+@media(max-width:380px){
+  .header-note{display:none}
+  .hero{padding-top:112px}
+  .hero h1{font-size:clamp(56px,16vw,70px)}
+  .section-label{font-size:6px;letter-spacing:.12em}
+  .project-title{font-size:clamp(38px,12vw,54px)}
+  .contact-socials{gap:12px}
+  .contact-socials a{font-size:6px}
+}
+@media(prefers-reduced-motion:reduce){.loader{animation:none;opacity:0;visibility:hidden}}
