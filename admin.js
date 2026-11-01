@@ -1,7 +1,7 @@
 const db=window.SEV7N_DB,status=document.querySelector('#status'),login=document.querySelector('#login'),dashboard=document.querySelector('#dashboard'),signout=document.querySelector('#signout');
 const safe=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 if(!db){status.textContent='Site data connection is not configured. Add the Vercel environment variables, then redeploy.'}else{
- document.querySelector('#login-form').addEventListener('submit',async e=>{e.preventDefault();status.textContent='Sending secure sign-in link…';try{await db.signIn(new FormData(e.currentTarget).get('email'));status.textContent='Check your inbox for the sign-in link.'}catch(err){status.textContent=err.message}});
+ document.querySelector('#login-form').addEventListener('submit',async e=>{e.preventDefault();status.textContent='Signing in…';try{const f=new FormData(e.currentTarget);await db.signIn(f.get('email'),f.get('password'));e.currentTarget.reset();await refresh()}catch(err){status.textContent=err.message}});
  document.querySelector('#signout').addEventListener('click',async()=>{await db.client.auth.signOut();location.reload()});
  db.client.auth.onAuthStateChange(()=>refresh());refresh();
 }

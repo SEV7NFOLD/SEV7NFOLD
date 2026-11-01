@@ -14,9 +14,9 @@
   window.SEV7N_DB = {
     client,
     isAdmin,
-    async signIn(email) {
+    async signIn(email, password) {
       if (String(email).trim().toLowerCase() !== adminEmail) throw new Error('This email is not allowed to manage the site.');
-      const { error } = await client.auth.signInWithOtp({ email: adminEmail, options: { emailRedirectTo: location.origin + '/admin.html' } });
+      const { error } = await client.auth.signInWithPassword({ email: adminEmail, password });
       if (error) throw error;
     },
     async getProjects() {
