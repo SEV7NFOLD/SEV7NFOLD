@@ -1,1 +1,208 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>SEV7N FOLD / Site Admin</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet"><style>*{box-sizing:border-box}body{margin:0;background:#111;color:#f6f3ee;font:14px 'DM Sans',sans-serif}main{max-width:1000px;margin:auto;padding:36px 22px 80px}.top{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #393735;padding:10px 0 26px}.eyebrow,small{font-size:10px;letter-spacing:.16em;color:#b4a2e7}.display{font:700 clamp(42px,8vw,84px)/.9 'Barlow Condensed',sans-serif;margin:24px 0}.card{background:#1b1b1b;border:1px solid #343434;padding:22px;margin:16px 0}button,input,textarea,select{font:inherit}button{background:#a98aff;color:#111;border:0;padding:12px 16px;cursor:pointer}input,textarea,select{background:#101010;color:#fff;border:1px solid #494949;padding:12px;width:100%;margin:7px 0 14px}textarea{min-height:80px}label{display:block;color:#bbb;font-size:12px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.row{border-top:1px solid #393735;padding:15px 0;display:grid;grid-template-columns:1fr auto;gap:14px}.status{color:#aaa}@media(max-width:650px){.grid{grid-template-columns:1fr}.top{align-items:flex-start}}</style><script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.min.js"></script><script defer src="runtime-config.js"></script><script defer src="supabase-client.js"></script><link rel="icon" type="image/svg+xml" href="/assets/sev7nfold-favicon.svg"></head><body><main><div class="top"><a href="index.html">SEV7N FOLD / BACK TO SITE</a><button id="signout" hidden>Sign out</button></div><p class="eyebrow">PRIVATE CONTENT DESK</p><h1 class="display">SITE ADMIN<span style="color:#8a4dff">.</span></h1><div id="status" class="status card">Checking configuration…</div><section id="login" class="card" hidden><h2>Sign in</h2><p>Use the authorized administrator email and its Supabase password.</p><form id="login-form"><label>Admin email<input type="email" name="email" value="sevenfold.ng@gmail.com" autocomplete="username" required></label><label>Password<input type="password" name="password" autocomplete="current-password" required></label><button>Sign in</button> <button type="button" id="forgot-password">Forgot password?</button></form></section><section id="password-reset" class="card" hidden><h2>Set a new password</h2><p>Choose a new password for the site administrator account.</p><form id="password-reset-form"><label>New password<input type="password" name="password" autocomplete="new-password" minlength="8" required></label><label>Confirm new password<input type="password" name="confirm" autocomplete="new-password" minlength="8" required></label><button>Save new password</button></form></section><div id="dashboard" hidden><section class="card"><h2>Portfolio projects</h2><form id="project-form" class="grid"><label>Project name<input name="name" required></label><label>Slug<input name="slug" required></label><label>Category<input name="type"></label><label>Meta label<input name="meta"></label><label>Page path<input name="href" placeholder="fold-motion.html"></label><label>Interface image path<input name="media" placeholder="assets/…png"></label><label>Architecture image path<input name="art" placeholder="assets/…jpg"></label><label>Display order<input name="sort_order" type="number" value="0"></label><label style="grid-column:1/-1">Summary<textarea name="summary"></textarea></label><label><input style="width:auto" type="checkbox" name="published"> Publish on site</label><button>Save project</button></form><div id="projects"></div></section><section class="card"><h2>Cinematic films</h2><form id="film-form" class="grid"><label>Title<input name="title" required></label><label>Slug<input name="slug" required></label><label>Film link<input name="video_url" type="url" required placeholder="TikTok post or MP4 URL"></label><label>Display order<input name="sort_order" type="number" value="0"></label><label style="grid-column:1/-1">Film note<input name="note"></label><label style="grid-column:1/-1">Storyboard beats, one per line<textarea name="storyboard"></textarea></label><label><input style="width:auto" type="checkbox" name="published"> Publish in sequence</label><button>Add film</button></form><div id="films"></div></section><section class="card"><h2>Project conversations</h2><div id="bookings"></div></section></div></main><script defer src="admin.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#101014">
+  <title>SEV7N FOLD / Private Content Desk</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="/assets/sev7nfold-favicon.svg">
+  <style>
+    :root{color-scheme:dark;--bg:#101014;--panel:#17171d;--panel2:#1d1d24;--line:#34343d;--soft:#a7a6b1;--ink:#f5f3f0;--violet:#9b6bff;--mint:#9ce3c1;--danger:#ff9a9a}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth;scroll-padding-top:100px}
+    body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 84% 4%,rgba(126,76,203,.13),transparent 33%),var(--bg);color:var(--ink);font:15px/1.55 "DM Sans",sans-serif}
+    body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.12;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:56px 56px;mask-image:linear-gradient(to bottom,black,transparent 75%)}
+    [hidden]{display:none!important}
+    a{color:inherit;text-decoration:none}
+    button,input,textarea,select{font:inherit}
+    button{cursor:pointer}
+    .shell{width:min(1220px,100% - 64px);margin:auto;position:relative}
+    .topbar{height:78px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}
+    .brand{display:flex;align-items:center;gap:14px}
+    .brand img{width:35px;height:35px;object-fit:contain}
+    .brand-name{font-size:12px;font-weight:700;letter-spacing:.18em}
+    .brand-sub{display:block;color:var(--soft);font-size:9px;letter-spacing:.2em;margin-top:3px}
+    .top-actions{display:flex;align-items:center;gap:18px}
+    .live-label,.eyebrow,.section-kicker,.field-note{font-size:10px;letter-spacing:.17em;text-transform:uppercase}
+    .live-label{display:flex;align-items:center;gap:9px;color:#d8d4df}
+    .live-dot{width:7px;height:7px;border-radius:50%;background:var(--mint);box-shadow:0 0 15px rgba(156,227,193,.7)}
+    .text-link{color:#c9c5d0;font-size:12px}
+    .text-link:hover{color:white}
+    .button{min-height:46px;padding:0 20px;border:1px solid transparent;border-radius:3px;background:var(--ink);color:#111116;font-size:12px;font-weight:700;letter-spacing:.035em;transition:transform .2s,background .2s,border-color .2s}
+    .button:hover{transform:translateY(-2px)}
+    .button-primary{background:var(--violet);color:#fff}
+    .button-primary:hover{background:#ad88ff}
+    .button-quiet{background:transparent;color:var(--ink);border-color:#4a4851}
+    .button-quiet:hover{border-color:#8e70cc}
+    .button-small{min-height:36px;padding:0 14px;font-size:11px}
+    .button-danger{background:transparent;color:#ffc0c0;border-color:#5b3439}
+    .status{margin:24px 0 0;padding:12px 15px;border:1px solid var(--line);background:rgba(255,255,255,.025);color:#c5c2cc;font-size:12px}
+    .status:before{content:"";display:inline-block;width:6px;height:6px;margin:0 10px 1px 0;border-radius:50%;background:var(--violet)}
+    .status[data-tone="success"]:before{background:var(--mint)}
+    .status[data-tone="error"]:before{background:#ff8585}
+    .eyebrow{color:#b69aff}
+    .display{margin:14px 0 0;font:700 clamp(58px,9vw,118px)/.78 "Barlow Condensed",sans-serif;letter-spacing:-.035em;text-transform:uppercase}
+    .purple{color:var(--violet)}
+    .intro{padding:54px 0 42px;border-bottom:1px solid var(--line)}
+    .intro-line{display:grid;grid-template-columns:minmax(0,1fr) minmax(210px,340px);gap:40px;align-items:end}
+    .intro-note{max-width:330px;color:var(--soft);font-size:14px}
+    .intro-note strong{display:block;color:var(--ink);font-weight:500;margin-bottom:10px}
+    .auth-panel{position:relative;display:grid;grid-template-columns:1fr minmax(340px,.72fr);gap:clamp(28px,7vw,100px);align-items:center;margin:38px 0 100px;padding:clamp(25px,6vw,70px);border:1px solid #3c3944;background:linear-gradient(125deg,rgba(155,107,255,.075),transparent 50%),var(--panel);overflow:hidden}
+    .auth-panel:after{content:"";position:absolute;right:-90px;top:-145px;width:330px;aspect-ratio:1;border:1px solid rgba(155,107,255,.32);transform:rotate(45deg);pointer-events:none}
+    .auth-copy{position:relative;z-index:1}
+    .auth-copy h2{max-width:530px;margin:17px 0;font:600 clamp(42px,6vw,76px)/.9 "Barlow Condensed",sans-serif;text-transform:uppercase}
+    .auth-copy p{max-width:430px;margin:0;color:var(--soft)}
+    .auth-form-wrap{position:relative;z-index:1;padding:26px;border:1px solid var(--line);background:rgba(14,14,18,.82)}
+    .auth-form-wrap h3{margin:0 0 6px;font-size:17px}
+    .auth-form-wrap>p{margin:0 0 22px;color:var(--soft);font-size:12px}
+    .form{display:grid;gap:15px}
+    label{display:grid;gap:7px;color:#d5d2dc;font-size:11px;letter-spacing:.045em}
+    input,textarea,select{width:100%;min-height:44px;padding:11px 12px;border:1px solid #41414a;border-radius:2px;background:#101015;color:var(--ink);outline:none}
+    textarea{min-height:104px;resize:vertical}
+    input:focus,textarea:focus,select:focus{border-color:var(--violet);box-shadow:0 0 0 3px rgba(155,107,255,.12)}
+    input::placeholder,textarea::placeholder{color:#777580}
+    .form-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:4px}
+    .auth-foot{margin:16px 0 0;color:#8f8d98;font-size:11px}
+    .dashboard-head{padding:54px 0 34px}
+    .dashboard-head h1{margin:12px 0 10px;font:600 clamp(48px,7vw,84px)/.85 "Barlow Condensed",sans-serif;text-transform:uppercase}
+    .dashboard-head p{max-width:560px;margin:0;color:var(--soft)}
+    .section-nav{position:sticky;top:0;z-index:5;display:flex;gap:7px;overflow-x:auto;padding:12px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:rgba(16,16,20,.92);backdrop-filter:blur(14px)}
+    .section-nav a{flex:none;padding:9px 13px;border:1px solid transparent;color:#b3b0bb;font-size:11px}
+    .section-nav a:hover{border-color:var(--line);color:var(--ink)}
+    .admin-section{padding:46px 0 20px;scroll-margin-top:90px}
+    .section-heading{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:20px}
+    .section-heading h2{margin:5px 0 0;font:600 clamp(32px,5vw,48px)/.9 "Barlow Condensed",sans-serif;text-transform:uppercase}
+    .section-heading p{max-width:400px;margin:0;color:var(--soft);font-size:12px}
+    .panel{padding:clamp(18px,3vw,30px);border:1px solid var(--line);background:linear-gradient(145deg,rgba(255,255,255,.025),transparent 50%),var(--panel)}
+    .editor-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 18px}
+    .editor-form .span-all{grid-column:1/-1}
+    .check-label{display:flex;align-items:center;gap:10px}
+    .check-label input{width:16px;min-height:16px;height:16px;margin:0;accent-color:var(--violet)}
+    .list{margin-top:24px}
+    .row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px;align-items:center;padding:17px 0;border-top:1px solid var(--line)}
+    .row b{font-size:14px}
+    .row small{display:block;margin:4px 0;color:#b69aff;font-size:9px;letter-spacing:.15em}
+    .row p{margin:7px 0 0;color:var(--soft);font-size:12px}
+    .empty{padding:20px 0;color:var(--soft);font-size:13px}
+    footer{display:flex;justify-content:space-between;gap:20px;padding:28px 0 42px;margin-top:54px;border-top:1px solid var(--line);color:#8c8994;font-size:10px;letter-spacing:.12em;text-transform:uppercase}
+    @media(max-width:760px){.shell{width:min(100% - 36px,620px)}.intro{padding-top:40px}.intro-line{grid-template-columns:1fr;gap:20px}.intro-note{max-width:460px}.auth-panel{grid-template-columns:1fr;margin-bottom:60px}.auth-copy h2{max-width:440px}.section-heading{align-items:flex-start;flex-direction:column}.dashboard-head{padding-top:40px}}
+    @media(max-width:520px){.shell{width:calc(100% - 28px)}.topbar{height:68px}.brand-name{font-size:10px}.brand img{width:30px;height:30px}.live-label{display:none}.text-link{font-size:11px}.display{font-size:clamp(54px,18vw,82px)}.auth-panel{gap:26px;padding:21px 16px}.auth-form-wrap{padding:19px 15px}.editor-form{grid-template-columns:1fr}.editor-form .span-all{grid-column:auto}.row{grid-template-columns:1fr auto;gap:8px}footer{flex-direction:column}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}
+  </style>
+  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.min.js"></script>
+  <script defer src="runtime-config.js"></script>
+  <script defer src="supabase-client.js"></script>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <a class="brand" href="index.html" aria-label="SEV7N FOLD home">
+        <img src="assets/sev7nfold-icon-white.svg" alt="">
+        <span class="brand-name">SEV7N FOLD<span class="brand-sub">PRIVATE CONTENT DESK</span></span>
+      </a>
+      <div class="top-actions">
+        <span class="live-label"><i class="live-dot"></i> Secure workspace</span>
+        <a class="text-link" href="index.html">Back to site ↗</a>
+        <button id="signout" class="button button-quiet button-small" hidden>Sign out</button>
+      </div>
+    </header>
+
+    <div id="status" class="status" role="status" aria-live="polite">Checking secure connection…</div>
+
+    <section id="login" class="auth-panel" hidden>
+      <div class="auth-copy">
+        <span class="eyebrow">ACCESS / 01</span>
+        <h2>Shape what the world sees<span class="purple">.</span></h2>
+        <p>One quiet workspace for the SEV7N FOLD portfolio, films, and project conversations.</p>
+      </div>
+      <div class="auth-form-wrap">
+        <h3>Administrator sign in</h3>
+        <p>Use the authorized SEV7N FOLD email and its Supabase password.</p>
+        <form id="login-form" class="form">
+          <label>Email address<input type="email" name="email" value="sevenfold.ng@gmail.com" autocomplete="username" required></label>
+          <label>Password<input type="password" name="password" autocomplete="current-password" required></label>
+          <div class="form-actions"><button class="button button-primary">Sign in ↗</button><button type="button" id="forgot-password" class="button button-quiet">Forgot password?</button></div>
+        </form>
+        <p class="auth-foot">Private access for the SEV7N FOLD team.</p>
+      </div>
+    </section>
+
+    <section id="password-reset" class="auth-panel" hidden>
+      <div class="auth-copy">
+        <span class="eyebrow">ACCOUNT / RECOVERY</span>
+        <h2>A fresh start<span class="purple">.</span></h2>
+        <p>Choose a new password for your administrator account. Your new password is stored securely by Supabase Auth.</p>
+      </div>
+      <div class="auth-form-wrap">
+        <h3>Set a new password</h3>
+        <p>Use a unique password you do not share with other services.</p>
+        <form id="password-reset-form" class="form">
+          <label>New password<input type="password" name="password" autocomplete="new-password" minlength="8" required></label>
+          <label>Confirm password<input type="password" name="confirm" autocomplete="new-password" minlength="8" required></label>
+          <div class="form-actions"><button class="button button-primary">Save password ↗</button></div>
+        </form>
+      </div>
+    </section>
+
+    <div id="dashboard" hidden>
+      <section class="dashboard-head">
+        <span class="eyebrow">CONTENT SYSTEM / 01</span>
+        <h1>Site admin<span class="purple">.</span></h1>
+        <p>Keep the work current. Shape how each product is introduced, add films to the cinematic sequence, and follow incoming project conversations.</p>
+      </section>
+      <nav class="section-nav" aria-label="Admin sections">
+        <a href="#portfolio">Portfolio</a><a href="#cinematic">Cinematic films</a><a href="#conversations">Conversations</a>
+      </nav>
+
+      <section class="admin-section" id="portfolio">
+        <div class="section-heading"><div><span class="eyebrow">01 / SELECTED WORK</span><h2>Portfolio projects</h2></div><p>Write the project story, choose the architectural image and interface visual, then publish when it is ready.</p></div>
+        <div class="panel">
+          <form id="project-form" class="editor-form">
+            <label>Project name<input name="name" required placeholder="FoldBook"></label>
+            <label>Slug<input name="slug" required placeholder="foldbook"></label>
+            <label>Category<input name="type" placeholder="Education technology"></label>
+            <label>Meta label<input name="meta" placeholder="AI SYSTEM / PRODUCT"></label>
+            <label>Page path<input name="href" placeholder="foldbook.html"></label>
+            <label>Interface image path<input name="media" placeholder="assets/foldbook-screen.png"></label>
+            <label>Architecture image path<input name="art" placeholder="assets/brand-architecture-05-courtyard.jpg"></label>
+            <label>Display order<input name="sort_order" type="number" value="0"></label>
+            <label class="span-all">Project summary<textarea name="summary" placeholder="What did SEV7N FOLD build, and what does it make possible?"></textarea></label>
+            <label class="check-label"><input type="checkbox" name="published"> Publish on the website</label>
+            <div class="span-all"><button class="button button-primary">Save project ↗</button></div>
+          </form>
+          <div id="projects" class="list"></div>
+        </div>
+      </section>
+
+      <section class="admin-section" id="cinematic">
+        <div class="section-heading"><div><span class="eyebrow">02 / CINEMATIC PLAYGROUND</span><h2>Films & motion</h2></div><p>Add portrait films and storyboard notes to the cascading SEV7N FOLD sequence.</p></div>
+        <div class="panel">
+          <form id="film-form" class="editor-form">
+            <label>Film title<input name="title" required placeholder="A signal takes form"></label>
+            <label>Slug<input name="slug" required placeholder="signal-takes-form"></label>
+            <label class="span-all">TikTok or video link<input name="video_url" type="url" required placeholder="https://www.tiktok.com/@…"></label>
+            <label>Display order<input name="sort_order" type="number" value="0"></label>
+            <label>Film note<input name="note" placeholder="A short line to set the scene"></label>
+            <label class="span-all">Storyboard beats<textarea name="storyboard" placeholder="One beat per line"></textarea></label>
+            <label class="check-label"><input type="checkbox" name="published"> Add to public sequence</label>
+            <div class="span-all"><button class="button button-primary">Save film ↗</button></div>
+          </form>
+          <div id="films" class="list"></div>
+        </div>
+      </section>
+
+      <section class="admin-section" id="conversations">
+        <div class="section-heading"><div><span class="eyebrow">03 / INCOMING</span><h2>Project conversations</h2></div><p>Review the notes clients send through the project conversation flow and update their status.</p></div>
+        <div class="panel"><div id="bookings"></div></div>
+      </section>
+    </div>
+
+    <footer><span>SEV7N FOLD / LAGOS, NIGERIA</span><span>TECHNOLOGY × CREATIVITY × GROWTH</span><a href="#">Back to top ↑</a></footer>
+  </main>
+  <script defer src="admin.js"></script>
+</body>
+</html>
